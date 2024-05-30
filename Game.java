@@ -1,14 +1,14 @@
 public class Game {
     private Board board;
-    private String turn = "white";
-    private int[] selectedSquare;
-    private boolean isCheckmate;
+    private String turn = "white"; // the turn of the person playing
+    private int[] selectedSquare; // is used later for selecting squares to move your pieces
+    private boolean isCheckmate; // keeps track of checkmate status
     
-    public Game() {
+    public Game() { // constructor, starts the backend engine of the game
         this.board = new Board();
         this.isCheckmate = false;
     }
-    
+    // the methods below are just to return certain important values and such when necessary
     public boolean isPieceSelected(){
         return selectedSquare != null;
     }
@@ -24,7 +24,7 @@ public class Game {
         return turn;
     }
     
-    public boolean move(int[] start, int[] end){
+    public boolean move(int[] start, int[] end){ // this method is to move the piece in the backend of the game and to check if check or checkmate happens
         Piece moving = this.board.getPiece(start[0], start[1]);
         
         if (moving == null || !moving.getColor().equals(turn)){
@@ -41,10 +41,13 @@ public class Game {
             }
             
         }
+        if (isStillInCheck(this.turn, start, end)){
+                return false;
+        }
         
         if (moving.isValidMove(end, this.board.getBoard())){
             this.board.movePiece(start, end);
-            if (turn.equals("white")){
+            if (turn.equals("white")){ // this switches the player status after each turn
                 turn = "black";
             } else {
                 turn = "white";
@@ -56,11 +59,41 @@ public class Game {
         return false;
     }
     
-    public void promote(int[] coords, Piece p){
+    // couldnt finish castling in time
+    // public boolean canCastle(int[] start, int[] end, String kingColor) {
+    //     // MAKE SURE TO UPDATE MOVED VARIABLE
+    //     if (isInCheck(kingColor)) return false;
+        
+    //     Piece[][] b = this.board.getBoard();
+    //     if (kingColor.equals("white") && end[0] == 7 && end[1] == 2 && start[0] == 7 && start[1] == 4) {
+    //         System.out.println("yes1");
+    //         System.out.println(b[7][0].getType().equals("Rook"));
+    //         System.out.println(b[7][0] != null);
+    //         System.out.println(!b[7][0].getMoved());
+    //         System.out.println(!b[7][4].getMoved());
+    //         if (b[7][0] != null && b[7][0].getType().equals("Rook") && !b[7][0].getMoved() && !b[7][4].getMoved()) {
+    //             System.out.println("yes2");
+    //             if (b[7][1] == null && b[7][2] == null && b[7][3] == null) {
+    //                 System.out.println("yes3");
+    //                 if (!isStillInCheck(kingColor, start, end)) {
+    //                     System.out.println("yes4");
+    //                     return true;
+    //                 }
+    //             }
+    //         }
+    //     }
+    //     return false;
+    // }
+    
+    public void promote(int[] coords, Piece p){ // promotes pawns
         this.board.setPiece(coords, p);
     }
     
-    public boolean isInCheck(String c) {
+    // public void castle(int[] coords, Piece p) {
+    //     this.board
+    // }
+    
+    public boolean isInCheck(String c) { // checks if a king is in check based on the color
         int x = 0;
         int y = 0;
         boolean isDone = false;
@@ -83,7 +116,7 @@ public class Game {
                 if (p != null && !p.getColor().equals(c)) {
                     int[] coords = {x, y};
                     if (p.isValidMove(coords, this.board.getBoard())){
-                        System.out.println("check");
+                        // System.out.println("check");
                         return true;
                     } 
                 }
@@ -93,7 +126,7 @@ public class Game {
         
     }
     
-    public boolean isInCheckmate(String kingColor){
+    public boolean isInCheckmate(String kingColor){ // checks if a king is in checkmate based on the color
         //king needs to be in check to be in checkmate
         if (!isInCheck(kingColor)){
             return false;
@@ -140,13 +173,13 @@ public class Game {
         
     }
     
-    public boolean onBoard(int[] end){
+    public boolean onBoard(int[] end){ // makes sure that any movements happen on the board
         if (end[0] > -1 && end[0] < 8 && end[1] > -1 && end[1] < 8)
             return true;
         return false;
     }
     
-    public boolean isStillInCheck(String kingColor, int[] start, int[] end){
+    public boolean isStillInCheck(String kingColor, int[] start, int[] end){ // checks in the future to see if a king will be in check after another move is performed
         Piece original = this.board.getPiece(end[0], end[1]);
         
         this.board.setPiece(end[0], end[1], this.board.getPiece(start[0], start[1]));
@@ -168,7 +201,7 @@ public class Game {
     then once you click the second place you want the piece to go to, the initial click will be the start coords and the end coords will be second click you just made.
     then it resets the original click.
     */
-    public boolean handleSquareSelection(int x, int y) {
+    public boolean handleSquareSelection(int x, int y) { // this was taken as "inspiration" from the source website on how to get the selected pieces to work together
         if (selectedSquare == null){
             Piece selectedPiece = board.getPiece(x, y);
             boolean selectedIsTheSameColor;
