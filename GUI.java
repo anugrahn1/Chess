@@ -171,8 +171,21 @@ public class GUI extends JFrame {
             }
         }
     }
+
+    private static void closeAllDialogs(){
+        Window[] windows = getWindows();
+
+        for (Window window : windows)
+        {
+            if (window instanceof JDialog)
+            {
+                window.dispose();
+            }
+        }
+    }
     
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(GUI::new);
+        closeAllDialogs();
+        new GUI();
     }
 }
