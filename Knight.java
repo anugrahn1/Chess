@@ -1,60 +1,39 @@
 public class Knight extends Piece {
-    
-    public Knight(int x, int y, String color){
-        super(x, y, color);
+    public Knight(int row, int col, String color) {
+        super(row, col, color, "Knight");
     }
-    
-    public int[][] possibleOptions(){
-        
-        int[][] options = new int[8][2];
-        for (int r = 0; r < options.length; r++){
-            for (int c = 0; c < options[0].length; c++){
-                options[r][c] = -1;
-            }
-        }
-        
-        int x = super.getX();
-        int y = super.getY();
-        for (int r = 0; r < options.length; r++){
 
-            if (Board.spotIsFree(x-1, y+2) && r == 0){
-                options[r][0] = x-1;
-                options[r][1] = y+2;
-            }
-            if (Board.spotIsFree(x+1, y+2) && r == 1){
-                options[r][0] = x+1;
-                options[r][1] = y+2;
-            }
-            if (Board.spotIsFree(x+1, y-2) && r == 2){
-                options[r][0] = x+1;
-                options[r][1] = y-2;
-            }
-            if (Board.spotIsFree(x-1, y-2) && r == 3){
-                options[r][0] = x-1;
-                options[r][1] = y-2;
-            }
-            if (Board.spotIsFree(x-1, y-1) && r == 4){
-                options[r][0] = x-1;
-                options[r][1] = y-1;
-            }
-            if (Board.spotIsFree(x-1, y) && r == 5){
-                options[r][0] = x-1;
-                options[r][1] = y;
-            }
-            if (Board.spotIsFree(x+1, y-1) && r == 6){
-                options[r][0] = x+1;
-                options[r][1] = y-1;
-            }
-            if (Board.spotIsFree(x, y-1) && r == 7){
-                options[r][0] = x;
-                options[r][1] = y-1;
-            }
+    public boolean isValidMove(int[] end, Piece[][] board) {
+        String color = super.getColor();
+        int[] start = super.getCoords();
 
+        int rowDiff = Math.abs(start[0] - end[0]);
+        int colDiff = Math.abs(start[1] - end[1]);
+
+        boolean isValidMove;
+
+        //if it makes the L shape it is valid
+        if ((rowDiff == 2 && colDiff == 1) || (rowDiff == 1 && colDiff == 2))
+            isValidMove = true;
+        else
+            isValidMove = false;
+
+        // if it is making some other shape it is not valid
+        if (!isValidMove)
+            return false;
+        
+
+        // can move to an empty spot
+        if (board[end[0]][end[1]] == null){
+            return true;
         }
-        
-        
-        return options;
-        
+
+        //cant move to a spot with the same color piece
+        if (board[end[0]][end[1]].getColor().equals(color)){
+            return false;
+        }
+
+        //can move to a spot if it has an opposite color piece
+        return true; 
     }
-    
 }

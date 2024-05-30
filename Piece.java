@@ -1,38 +1,57 @@
 public class Piece {
-    private int[] pos; //[y, x]   [0,0] -> a8  [0,1] -> b8
+    private int row;
+    private int coloumn;
     private String color;
+    private String type;
 
-    public Piece(int x, int y, String c) {
-        this.pos[0] = x; // 
-        this.pos[1] = y; 
-        this.color = c;
+    public Piece(int row, int col, String color, String type){
+        this.row = row;
+        this.coloumn = col;
+        this.color = color;
+        this.type = type;
     }
 
-    public Piece(int x, int y) {
-        this.pos[0] = x;
-        this.pos[1] = y; 
-        this.color = "blank";
+    public int getRow(){
+        return this.row;
     }
 
-    public int getX() {
-        return pos[0];
+    public int getColumn(){
+        return this.coloumn;
     }
 
-    public int getY() {
-        return pos[1];
+    public int[] getCoords(){
+        int[] coords = {row, coloumn};
+        return coords; 
     }
 
     public String getColor(){
         return this.color;
     }
     
-    public String getOppositeColor() {
-        if (this.color.equals("white")) {
-            return "black";
-        } else if (this.color.equals("black")) {
-            return "white";
-        }
-        return "blank";
+    public String getType() {
+        return type;
     }
+    
+    public Piece getPiece(int row, int col) {
+        return null;    
+    }
+    
+    public Piece getPiece(int[] coords) {
+        return null;    
+    }
+    
+
+    public void setPosition(int[] coords){
+        this.row = coords[0];
+        this.coloumn = coords[1];
+    }
+
+    public boolean isValidMove(int x, int y, Piece[][] board){
+        return true;
+    }
+    public boolean isValidMove(int[] coords, Piece[][] board){
+        return true;
+    }
+
 
 }

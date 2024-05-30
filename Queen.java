@@ -1,148 +1,53 @@
 public class Queen extends Piece {
-    
-    public Queen(int x, int y, String c) {
-        super(x, y, c);
-    }
-    
-    public int[][] possibleMoves(){
-        int[][] options = new int[100][2];         //default values of options is [-1, -1] to represent no option there
-        for (int i = 0; i < options.length; i++){
-            for (int j = 0; j < options[0].length; i++){
-                options[i][j] = -1;
-            }
-        }
-        int x = super.getX();
-        int y = super.getY();
-        String color = super.getColor();
-        int count = 0;
-        for (int c = 0; c < y; c++){
-            if (Board.spotIsFree(x, c)) {
-                options[count][0] = x;
-                options[count][1] = c;
-                count++;
-            } else if (!(Board.spotIsFree(x, c)) && (!Board.colorIsEqual(x, c, color))) {
-                options[count][0] = x;
-                options[count][1] = c;
-                count++;
-                break;
-            } else if (!(Board.spotIsFree(x, c) && (Board.colorIsEqual(x, c, color)))) {
-                break;
-            }
-        }
-        for (int c = y; c < 8; c++){
-            if (c==y) continue;
-            if (Board.spotIsFree(x, c)) {
-                options[count][0] = x;
-                options[count][1] = c;
-                count++;
-            } else if (!(Board.spotIsFree(x, c)) && (!Board.colorIsEqual(x, c, color))) {
-                options[count][0] = x;
-                options[count][1] = c;
-                count++;
-                break;
-            } else if (!(Board.spotIsFree(x, c) && (Board.colorIsEqual(x, c, color)))) {
-                break;
-            }
-        }
-        
-        for (int r=0;r<x;r++) {
-            if (Board.spotIsFree(r, y)) {
-                options[count][0] = r;
-                options[count][1] = y;
-                count++;
-            } else if (!(Board.spotIsFree(r, y)) && (!Board.colorIsEqual(r, y, color))) {
-                options[count][0] = r;
-                options[count][1] = y;
-                count++;
-                break;
-            } else if (!(Board.spotIsFree(r, y) && (Board.colorIsEqual(r, y, color)))) {
-                break;
-            }
-        }
-        
-        for (int r=x;r<8;r++) {
-            if (r==x) continue;
-            if (Board.spotIsFree(r, y)) {
-                options[count][0] = r;
-                options[count][1] = y;
-                count++;
-            } else if (!(Board.spotIsFree(r, y)) && (!Board.colorIsEqual(r, y, color))) {
-                options[count][0] = r;
-                options[count][1] = y;
-                count++;
-                break;
-            } else if (!(Board.spotIsFree(r, y) && (Board.colorIsEqual(r, y, color)))) {
-                break;
-            }
-        }
-        
-        for (int a=0;a<Math.min(x,y);a++) {
-            if (a==0) continue;
-            if (Board.spotIsFree(x-a, y-a)) {
-                options[count][0] = x-a;
-                options[count][1] = y-a;
-                count++;
-            } else if (!(Board.spotIsFree(x-a, y-a)) && (!Board.colorIsEqual(x-a, y+a, color))) {
-                options[count][0] = x-a;
-                options[count][1] = y-a;
-                count++;
-                break;
-            } else if (!(Board.spotIsFree(x-a, y-a) && (Board.colorIsEqual(x-a, y-a, color)))) {
-                break;
-            }
-        }
-        
-        for (int a=0;a<Math.min((7-x), (7-y));a++) {
-            if (a==0) continue;
-            if (Board.spotIsFree(x+a, y+a)) {
-                options[count][0] = x+a;
-                options[count][1] = y+a;
-                count++;
-            } else if (!(Board.spotIsFree(x+a, y+a)) && (!Board.colorIsEqual(x+a, y+a, color))) {
-                options[count][0] = x+a;
-                options[count][1] = y+a;
-                count++;
-                break;
-            } else if (!(Board.spotIsFree(x+a, y+a) && (Board.colorIsEqual(x+a, y+a, color)))) {
-                break;
-            }
-        }
-        
-        for (int a=0;a<Math.min((x), (7-y));a++) {
-            if (a==0) continue;
-            if (Board.spotIsFree(x-a, y+a)) {
-                options[count][0] = x-a;
-                options[count][1] = y+a;
-                count++;
-            } else if (!(Board.spotIsFree(x-a, y+a)) && (!Board.colorIsEqual(x-a, y+a, color))) {
-                options[count][0] = x-a;
-                options[count][1] = y+a;
-                count++;
-                break;
-            } else if (!(Board.spotIsFree(x-a, y+a) && (Board.colorIsEqual(x-a, y+a, color)))) {
-                break;
-            }
-        }
-        
-        for (int a=0;a<Math.min((7-x), (y));a++) {
-            if (a==0) continue;
-            if (Board.spotIsFree(x+a, y-a)) {
-                options[count][0] = x+a;
-                options[count][1] = y-a;
-                count++;
-            } else if (!(Board.spotIsFree(x+a, y-a)) && (!Board.colorIsEqual(x+a, y-a, color))) {
-                options[count][0] = x+a;
-                options[count][1] = y-a;
-                count++;
-                break;
-            } else if (!(Board.spotIsFree(x+a, y-a) && (Board.colorIsEqual(x+a, y-a, color)))) {
-                break;
-            }
-        }
+    public Queen(int row, int col, String color) {
+        super(row, col, color, "Queen"); // sets the position and color of the queen
+	}
 
-        return options;
-     }
-     
-     
-    
+    public boolean isValidMove(int[] end, Piece[][] board) {
+      int x = end[0];
+      int y = end[1];
+      int delta_row = Math.abs(x - super.getRow()); // gets the difference between the destination position and the current
+      int delta_col = Math.abs(y - super.getColumn());
+
+      if (super.getRow() == x && super.getColumn() == y) {
+          return false;
+      }// checks for the best case scenario where the destination is the same as the current
+
+      boolean line = (super.getRow() == x) || (super.getColumn() == y); // sees if the destination is in the same row or column as the current in order to count it as a valid line
+
+      boolean diagonal = false; // now checks to see if there is a possible diagonal move 
+                                // if the change in y and change in x are the same, that means that the diagonal is possible since 
+      if (delta_row == delta_col) {
+        diagonal = true;
+      }
+
+      if (!line && !diagonal) { // if the final destination is not a line or a diagonal, then the move is not valid
+          return false;
+      }
+
+      int rowMovement = 1;
+      if (x == super.getRow()) { // basically we are going to simulate moving on the board 
+        rowMovement = 0;
+      } else if (x < super.getRow()) {
+        rowMovement = -1;
+      }
+      int colMovement = 1;
+      if (y == super.getColumn()) {
+        colMovement = 0;
+      } else if (y < super.getColumn()) {
+        colMovement = -1;
+      }
+
+      int currentRow = super.getRow() + rowMovement;
+      int currentCol = super.getColumn() + colMovement;
+      while (currentRow != x || currentCol != y) {
+          if (board[currentRow][currentCol] != null) {
+              return false;
+          }
+          currentRow += rowMovement;
+          currentCol += colMovement;
+      }
+
+      return (board[x][y] == null || board[x][y].getColor() != getColor());
+  }
 }

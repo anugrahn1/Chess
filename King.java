@@ -1,52 +1,35 @@
-public class King extends Piece{
-     private boolean castlingDone = false;
+public class King extends Piece {
+    public King(int row, int col, String color) {
+        super(row, col, color, "King");
+	}
 
-     public King(int x, int y, String color){
-        super(x, y, color);
-     }
 
-     public int[][] possibleMoves(){
-        int[][] options = new int[8][2];
-        int x = super.getX();
-        int y = super.getY();
-        for (int r = 0; r < options.length; r++){
-
-            if (Board.spotIsFree(x+1, y) && r == 0){
-                options[r][0] = x+1;
-                options[r][1] = y;
-            }
-            if (Board.spotIsFree(x, y+1) && r == 1){
-                options[r][0] = x;
-                options[r][1] = y+1;
-            }
-            if (Board.spotIsFree(x+1, y+1) && r == 2){
-                options[r][0] = x+1;
-                options[r][1] = y+1;
-            }
-            if (Board.spotIsFree(x-1, y+1) && r == 3){
-                options[r][0] = x-1;
-                options[r][1] = y+1;
-            }
-            if (Board.spotIsFree(x-1, y-1) && r == 4){
-                options[r][0] = x-1;
-                options[r][1] = y-1;
-            }
-            if (Board.spotIsFree(x-1, y) && r == 5){
-                options[r][0] = x-1;
-                options[r][1] = y;
-            }
-            if (Board.spotIsFree(x+1, y-1) && r == 6){
-                options[r][0] = x+1;
-                options[r][1] = y-1;
-            }
-            if (Board.spotIsFree(x, y-1) && r == 7){
-                options[r][0] = x;
-                options[r][1] = y-1;
-            }
-
+    public boolean isValidMove(int[] end, Piece[][] board){
+        String color = super.getColor();
+        int[] start = super.getCoords();
+        
+        int rowDiff = Math.abs(start[0] - end[0]);
+        int colDiff = Math.abs(start[1] - end[1]);
+        
+        boolean isOneSquareMove;
+        
+        //checks if the king is moving only one square
+        //rowDiff and colDiff can be 1 or less but if they are both 0 then the king isn't moving any squares which isn't allowed
+        if (rowDiff <= 1 && colDiff <=1 && (rowDiff != 0 || colDiff != 0)){
+            isOneSquareMove = true;
+        } else {
+            isOneSquareMove = false;
         }
-
-        return options;
-     }
-
+        
+        if (!isOneSquareMove){ // kings can only move one square
+            return false; 
+        }
+        
+        
+        
+        // if the destination is empty or the opposite color it is valid
+        return (board[end[0]][end[1]] == null || board[end[0]][end[1]].getColor() != getColor());
+        
+        
+    }
 }
