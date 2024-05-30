@@ -1,5 +1,4 @@
 # Chess
-#### Video Demo: https://www.youtube.com/watch?v=W3JcGyABt54
 #### Description: 
 
 ## Introduction
@@ -132,3 +131,5 @@ If you encounter issues running the game, ensure you have the correct version of
 
 ## Credits:
     ChatGPT for this readme
+
+Video Demo: https://www.youtube.com/watch?v=W3JcGyABt54
