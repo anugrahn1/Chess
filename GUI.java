@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+// chess pieces - https://commons.wikimedia.org/wiki/Category:PNG_chess_pieces/Standard_transparent
+// chess article - https://hackr.io/blog/how-to-build-a-java-chess-game-app
 public class GUI extends JFrame {
     private Square[][] squares = new Square[8][8];
     private Game game = new Game();
