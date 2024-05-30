@@ -147,8 +147,8 @@ public class Game {
             if (isDone) break;
         }
         //coords of king with color of kingColor
-        System.out.println("Kings row: "+kingCoords[0]);
-        System.out.println("Kings col: "+kingCoords[1]);
+        // System.out.println("Kings row: "+kingCoords[0]);
+        // System.out.println("Kings col: "+kingCoords[1]);
         King king = (King) this.board.getPiece(kingCoords[0], kingCoords[1]);
         
         for (int i=0;i<8;i++) {

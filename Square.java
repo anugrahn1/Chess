@@ -14,7 +14,7 @@ public class Square extends JButton {
     private void makeButton(){
         setPreferredSize(new Dimension(60, 60)); //size of button
         
-        if ((row + col) % 2 == 0) { //checkered boards
+        if ((row + col) % 2 == 1) { //checkered boards
             setBackground(Color.RED);
         } else {
             setBackground(Color.WHITE);

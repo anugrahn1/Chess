@@ -15,7 +15,9 @@ public class GUI extends JFrame {
       setLayout(new GridLayout(8, 8));
       initializeBoard();
       pack(); // Adjusts window size to fit the chessboard
+      setLocationRelativeTo(null);
       setVisible(true);
+
     }
     
     public String getFile(String c, String type) {
@@ -50,7 +52,7 @@ public class GUI extends JFrame {
     
     // sets each square to the correct image based on the type and color
     private void refreshBoard() {
-        System.out.println("in refresh board");
+        // System.out.println("in refresh board");
         Board board = game.getBoard();
         for (int row = 0; row < 8; row++){
             for (int col = 0; col < 8; col++){
@@ -95,7 +97,7 @@ public class GUI extends JFrame {
                 );
                 if (response >= 0) {
                     String selectedPiece = options[response];
-                    System.out.println("User choice for promotion: " + selectedPiece);
+                    // System.out.println("User choice for promotion: " + selectedPiece);
                     int[] coords = {0,j};
                     switch (selectedPiece) {
                         case "Queen":
@@ -134,7 +136,7 @@ public class GUI extends JFrame {
                 );
                 if (response >= 0) {
                     String selectedPiece = options[response];
-                    System.out.println("User choice for promotion: " + selectedPiece);
+                    // System.out.println("User choice for promotion: " + selectedPiece);
                     int[] coords = {7,j};
                     switch (selectedPiece) {
                         case "Queen":
@@ -177,7 +179,7 @@ public class GUI extends JFrame {
 
         for (Window window : windows)
         {
-            if (window instanceof JDialog)
+            if (window instanceof JFrame)
             {
                 window.dispose();
             }
